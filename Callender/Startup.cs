@@ -1,7 +1,11 @@
+using Callender.Data;
+using Callender.Date.PasswordHasher;
+using Callender.Date.Repo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,12 +30,17 @@ namespace Callender
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Callender", Version = "v1" });
-            });
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddDbContext<UserContext>(opt =>
+               opt.UseSqlServer(Configuration.GetConnectionString("CallenderConection"))
+           );
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Callender", Version = "v1" });
+            //});
+            services.AddScoped<ICallenderRepo, CallenderRopo>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +49,8 @@ namespace Callender
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Callender v1"));
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Callender v1"));
             }
 
             app.UseHttpsRedirection();
