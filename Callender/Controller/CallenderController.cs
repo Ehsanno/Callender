@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Callender.Controller
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class CallenderController : ControllerBase
     {

@@ -45,9 +45,9 @@ namespace Callender.Date.Repo
             return await _context.UserRole.FirstOrDefaultAsync(s => s.UserID == Id);
         }
         //create user
-        public void CreateUser(User cmd)
+        public async void CreateUser(User cmd)
         {
-             _context.Users.Add(cmd);
+            await _context.Users.AddAsync(cmd);
         }
         public Task<bool> SaveChanges()
         {
@@ -76,15 +76,15 @@ namespace Callender.Date.Repo
             return new IBasicResponse { Message = "User Role Updated ." };
         }
         // Set Role To DataBase
-        public void PostRole(UserRole cmd)
+        public async void PostRole(UserRole cmd)
         {
-            _context.UserRole.Add(cmd);
+            await _context.UserRole.AddAsync(cmd);
         }
 
-        //Add New Role 
-        public void AddRole(Role cmd)
+        //AddAsync New Role 
+        public async void AddRole(Role cmd)
         {
-            _context.Roles.Add(cmd);
+           await _context.Roles.AddAsync(cmd);
         }
         //check sign up information
         public async Task<bool> CheckSignUpInformation(string phoneNumber, string username)
@@ -117,10 +117,10 @@ namespace Callender.Date.Repo
             return true;
         }
         //push tokens for user id 
-        public void SetUsersToken(Token cmd)
+        public async void SetUsersToken(Token cmd)
         {
-            _context.Token.AddAsync(cmd);
-            SaveChanges();
+            await _context.Token.AddAsync(cmd);
+            await SaveChanges();
         }
         public async Task<IBasicResponse> GetTokensById(string usertoken)
         {
