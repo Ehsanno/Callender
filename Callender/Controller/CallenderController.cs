@@ -29,10 +29,10 @@ namespace Callender.Controller
         [HttpPost("user/signup/")]
         public async Task<IActionResult> CreateCommand(AccountCreateDto commandCreateDto)
         {
-            if (await _repository.CheckSignUpInformation(commandCreateDto.PhoneNumber, commandCreateDto.UserName) == false)
+            if (await _repository.CheckSignUpInformation(commandCreateDto.Phone, commandCreateDto.UserName) == false)
                 return BadRequest();
-            string passwordHash = await _passwordHasher.HashlPassword(commandCreateDto.Password);
-            commandCreateDto.Password = passwordHash;
+            string passwordHash = await _passwordHasher.HashlPassword(commandCreateDto.Pass);
+            commandCreateDto.Pass = passwordHash;
             var commandModel = _mapper.Map<User>(commandCreateDto);
             _repository.CreateUser(commandModel);
             var role = _mapper.Map<UserRole>(commandModel);

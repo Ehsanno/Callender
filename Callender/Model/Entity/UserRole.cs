@@ -7,8 +7,8 @@ namespace Callender.Model.Entity
 {
     public class UserRole
     {
-        public string ID { get; set; }
+        public string ID { get; set; } = Guid.NewGuid().ToString();
         public string UserID { get; set; }
-        public string RoleID { get; set; }
+        public string RoleID { get; set; } = "4";
     }
 }

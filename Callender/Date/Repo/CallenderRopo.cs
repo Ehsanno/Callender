@@ -45,9 +45,9 @@ namespace Callender.Date.Repo
             return await _context.UserRole.FirstOrDefaultAsync(s => s.UserID == Id);
         }
         //create user
-        public async void CreateUser(User cmd)
+        public  void CreateUser(User cmd)
         {
-            await _context.Users.AddAsync(cmd);
+             _context.Users.Add(cmd);
         }
         public Task<bool> SaveChanges()
         {
@@ -76,20 +76,20 @@ namespace Callender.Date.Repo
             return new IBasicResponse { Message = "User Role Updated ." };
         }
         // Set Role To DataBase
-        public async void PostRole(UserRole cmd)
+        public  void PostRole(UserRole cmd)
         {
-            await _context.UserRole.AddAsync(cmd);
+             _context.UserRole.Add(cmd);
         }
 
-        //AddAsync New Role 
-        public async void AddRole(Role cmd)
+        //Add New Role 
+        public  void AddRole(Role cmd)
         {
-           await _context.Roles.AddAsync(cmd);
+            _context.Roles.Add(cmd);
         }
         //check sign up information
         public async Task<bool> CheckSignUpInformation(string phoneNumber, string username)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Phone == phoneNumber);
             var user1 = await _context.Users.FirstOrDefaultAsync(y => y.UserName == username);
             if (user is null || user1 is null) return true;
             return false;
@@ -119,7 +119,7 @@ namespace Callender.Date.Repo
         //push tokens for user id 
         public async void SetUsersToken(Token cmd)
         {
-            await _context.Token.AddAsync(cmd);
+             _context.Token.Add(cmd);
             await SaveChanges();
         }
         public async Task<IBasicResponse> GetTokensById(string usertoken)

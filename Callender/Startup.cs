@@ -35,10 +35,11 @@ namespace Callender
             services.AddDbContext<UserContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("CallenderConection"))
            );
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Callender", Version = "v1" });
-            //});
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Callender", Version = "v1" });
+            });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICallenderRepo, CallenderRopo>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
         }
@@ -49,8 +50,8 @@ namespace Callender
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Callender v1"));
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Callender v1"));
             }
 
             app.UseHttpsRedirection();
