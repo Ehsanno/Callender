@@ -93,7 +93,16 @@ namespace Callender.Controller
             }
             return Ok(userinfo);
         }
+        // Get Suggests
+        [Authorize]
+        [HttpGet("Suggest")]
+        public IActionResult GetSuggests()
+        {
+            var suggestinfo = _repository.GetAllSuggest();
+            return Ok(suggestinfo);
+        }
         //get Suggest By ID
+        [Authorize]
         [HttpGet("Suggest/{suggestID}", Name= "GetSuggestById")]
         public async Task<IActionResult> GetSuggestById(string suggestID)
         {

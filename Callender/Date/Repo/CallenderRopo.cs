@@ -24,6 +24,10 @@ namespace Callender.Date.Repo
         {
             return _context.Users.ToList();
         }
+        public IEnumerable<Suggest> GetAllSuggest()
+        {
+            return _context.Suggest.ToList();
+        }
         //Get User By Id
         public async Task<User> GetUserByUserId(string Userid)
         {
