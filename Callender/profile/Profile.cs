@@ -14,7 +14,6 @@ namespace Callender.profile
             CreateMap<AccountCreateDto, User>();
             CreateMap<User, UserRole>();
             CreateMap<SetSuggest, Suggest>();
-            CreateMap<SetCarrier, Carrier>();
         }
     }
 }

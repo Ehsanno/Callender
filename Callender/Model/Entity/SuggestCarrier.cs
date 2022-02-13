@@ -7,7 +7,7 @@ namespace Callender.Model.Entity
 {
     public class SuggestCarrier
     {
-        public string ID { get; set; }
+        public string ID { get; set; } = Guid.NewGuid().ToString();
         public string CarrierID { get; set; }
         public string SuggestID { get; set; }
     }

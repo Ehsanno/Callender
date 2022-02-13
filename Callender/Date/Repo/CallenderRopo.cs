@@ -166,15 +166,22 @@ namespace Callender.Date.Repo
             return await _context.Carrier.FirstOrDefaultAsync(s => s.ID == CarrierID);
         }
 
-        //set Suggest By ID
+        //set Suggest
         public void SetSuggest(Suggest cmd)
         {
             _context.Suggest.Add(cmd);
         }
 
+        //set Carrier 
         public void SetCarrier(Carrier cmd)
         {
             _context.Carrier.Add(cmd);
+        }
+
+        //set SuggestCarrier
+        public void SetSuggestCarrier(SuggestCarrier cmd)
+        {
+            _context.SuggestCarriers.Add(cmd);
         }
     }
 }

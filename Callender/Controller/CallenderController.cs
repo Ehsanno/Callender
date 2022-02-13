@@ -134,12 +134,11 @@ namespace Callender.Controller
         //set Carrier
         [Authorize]
         [HttpPost("Carrier")]
-        public async Task<IActionResult> SetCarrier(SetCarrier setCarrier)
+        public async Task<IActionResult> SetCarrier(Carrier setCarrier)
         {
-            var setCarrier1 = _mapper.Map<Suggest>(setCarrier);
-            _repository.SetSuggest(setCarrier1);
+            _repository.SetCarrier(setCarrier);
             await _repository.SaveChanges();
-            return Ok(setCarrier1);
+            return Ok(setCarrier);
         }
         
         //get Carrier
@@ -162,6 +161,16 @@ namespace Callender.Controller
                 return NotFound();
             }
             return Ok(suggestinfo);
+        }
+        
+        //Set SuggestCarrier
+        [Authorize]
+        [HttpPost("SuggestCarrier")]
+        public async Task<IActionResult> SetSuggestCarrier(SuggestCarrier suggestCarrier)
+        {
+            _repository.SetSuggestCarrier(suggestCarrier);
+            await _repository.SaveChanges();
+            return Ok(suggestCarrier);
         }
     }
 }
