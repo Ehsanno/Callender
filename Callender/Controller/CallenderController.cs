@@ -145,12 +145,23 @@ namespace Callender.Controller
         //get Carrier
         [Authorize]
         [HttpGet("Carrier")]
-        public async Task<IActionResult> GetCarriers()
+        public IActionResult GetCarriers()
         {
             var carrierinfo = _repository.GetAllCarrier();
             return Ok(carrierinfo);
         }
 
-
+        //Get Carrier By ID
+        [Authorize]
+        [HttpGet("Carrier/{CarrierID}")]
+        public async Task<IActionResult> GetCarrierByID(string CarrierID)
+        {
+            var suggestinfo = await _repository.GetCarrierById(CarrierID);
+            if (suggestinfo == null)
+            {
+                return NotFound();
+            }
+            return Ok(suggestinfo);
+        }
     }
 }

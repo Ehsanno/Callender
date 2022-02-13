@@ -11,6 +11,7 @@ namespace Callender.Date.Repo
         IEnumerable<Carrier> GetAllCarrier(); //getusers
         Task<User> GetUserByUserId(string Userid);//get User by Id
         Task<Suggest> GetSuggestById(string SuggestID);//Get Suggest By ID
+        Task<Carrier> GetCarrierById(string CarrierID);//Get Carrier By ID
         void SetSuggest(Suggest cmd); //Set Suggest 
         Task<Role> RoleCheck(string roleid);//check roles by roleId
         Task<UserRole> Roleacces(string Id);// check users Roles

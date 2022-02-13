@@ -159,6 +159,13 @@ namespace Callender.Date.Repo
         {
             return await _context.Suggest.FirstOrDefaultAsync(s => s.ID == SuggestID);
         }
+
+        //Get Carrier By ID
+        public async Task<Carrier> GetCarrierById(string CarrierID)
+        {
+            return await _context.Carrier.FirstOrDefaultAsync(s => s.ID == CarrierID);
+        }
+
         //set Suggest By ID
         public void SetSuggest(Suggest cmd)
         {
