@@ -160,5 +160,10 @@ namespace Callender.Date.Repo
         {
             _context.Suggest.Add(cmd);
         }
+
+        public void SetCarrier(Carrier cmd)
+        {
+            _context.Carrier.Add(cmd);
+        }
     }
 }

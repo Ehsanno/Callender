@@ -26,6 +26,7 @@ namespace Callender.Date.Repo
         void SetUsersToken(Token cmd); // Get User Token
         Task<IBasicResponse> GetTokensByID(string ID); //Get Users Token
         Task<bool> GetTokenByToken(string token); //check valid token
+        void SetCarrier(Carrier cmd); //Set Carrier 
 
     }
     public class IBasicResponse

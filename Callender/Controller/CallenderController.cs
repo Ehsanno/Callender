@@ -130,5 +130,17 @@ namespace Callender.Controller
             await _repository.SaveChanges();
             return Ok(suggest1);
         }
+        
+        //set Carrier
+        [Authorize]
+        [HttpPost("Carrier")]
+        public async Task<IActionResult> SetCarrier(SetCarrier setCarrier)
+        {
+            var setCarrier1 = _mapper.Map<Suggest>(setCarrier);
+            _repository.SetSuggest(setCarrier1);
+            await _repository.SaveChanges();
+            return Ok(setCarrier1);
+        }
+        
     }
 }
