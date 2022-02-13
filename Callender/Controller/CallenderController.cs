@@ -94,7 +94,7 @@ namespace Callender.Controller
             return Ok(userinfo);
         }
         //get Suggest By ID
-        [HttpGet("Suggest/{suggestID", Name= "GetSuggestById")]
+        [HttpGet("Suggest/{suggestID}", Name= "GetSuggestById")]
         public async Task<IActionResult> GetSuggestById(string suggestID)
         {
             var suggestinfo = await _repository.GetSuggestById(suggestID);
@@ -105,15 +105,16 @@ namespace Callender.Controller
             return Ok(suggestinfo);
         }
         //set Suggest 
+        [Authorize]
         [HttpPost("Suggest")]
         public async Task<IActionResult> SetSuggest(SetSuggest suggest)
         {
             string UserID = HttpContext.User.FindFirstValue(ClaimTypes.SerialNumber);
-            suggest.UserID = UserID;
             var suggest1 = _mapper.Map<Suggest>(suggest);
+            suggest1.UserID = UserID;
             _repository.SetSuggest(suggest1);
             await _repository.SaveChanges();
-            return CreatedAtRoute(nameof(GetSuggestById), new { UserID = suggest1.ID }, suggest1);
+            return Ok(suggest1);
         }
     }
 }

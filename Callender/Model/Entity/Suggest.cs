@@ -20,7 +20,6 @@ namespace Callender.Model.Entity
         public string ID { get; set; } = Guid.NewGuid().ToString();
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string UserID { get; set; }
         public string Content { get; set; }
     }
 }
