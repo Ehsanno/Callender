@@ -68,7 +68,7 @@ namespace Callender.Controller
                 AccessToken = accessToken,
             });
         }
-        
+
         //set role by default
         public async Task<IActionResult> SetRolebyDefualt(UserRole roleAccess)
         {
@@ -95,7 +95,27 @@ namespace Callender.Controller
             }
             return Ok(userinfo);
         }
-        
+
+        //set Suggest 
+        [Authorize]
+        [HttpPost("Suggest")]
+        public async Task<IActionResult> SetSuggest(SetSuggest suggest)
+        {
+            SuggestCarrier suggestCarrier = new();
+            string UserID = HttpContext.User.FindFirstValue(ClaimTypes.SerialNumber);
+            var suggestinfo = _mapper.Map<Suggest>(suggest);
+            suggestinfo.UserID = UserID;
+            var userCarrierInfo = await _repository.GetUserCarrierByUserID(UserID);
+            var CarrierInfo = await _repository.GetCarrierById(userCarrierInfo.CarrierID);
+            suggestCarrier.CarrierID = CarrierInfo.ID;
+            suggestCarrier.SuggestID = suggest.ID;
+            _repository.SetSuggest(suggestinfo);
+            _repository.SetSuggestCarrier(suggestCarrier);
+            await _repository.SaveChanges();
+
+            return Ok(suggestinfo);
+        }
+
         // Get Suggests
         [Authorize]
         [HttpGet("Suggest")]
@@ -105,7 +125,7 @@ namespace Callender.Controller
             return Ok(suggestinfo);
         }
        
-        //get Suggest By ID
+        /*get Suggest By ID
         [Authorize]
         [HttpGet("Suggest/{suggestID}", Name= "GetSuggestById")]
         public async Task<IActionResult> GetSuggestById(string suggestID)
@@ -116,20 +136,7 @@ namespace Callender.Controller
                 return NotFound();
             }
             return Ok(suggestinfo);
-        }
-        
-        //set Suggest 
-        [Authorize]
-        [HttpPost("Suggest")]
-        public async Task<IActionResult> SetSuggest(SetSuggest suggest)
-        {
-            string UserID = HttpContext.User.FindFirstValue(ClaimTypes.SerialNumber);
-            var suggest1 = _mapper.Map<Suggest>(suggest);
-            suggest1.UserID = UserID;
-            _repository.SetSuggest(suggest1);
-            await _repository.SaveChanges();
-            return Ok(suggest1);
-        }
+        }*/
         
         //set Carrier
         [Authorize]
@@ -150,7 +157,7 @@ namespace Callender.Controller
             return Ok(carrierinfo);
         }
 
-        //Get Carrier By ID
+        /*Get Carrier By ID
         [Authorize]
         [HttpGet("Carrier/{CarrierID}")]
         public async Task<IActionResult> GetCarrierByID(string CarrierID)
@@ -161,23 +168,14 @@ namespace Callender.Controller
                 return NotFound();
             }
             return Ok(suggestinfo);
-        }
-        
-        //Set SuggestCarrier
-        [Authorize]
-        [HttpPost("SuggestCarrier")]
-        public async Task<IActionResult> SetSuggestCarrier(SuggestCarrier suggestCarrier)
-        {
-            _repository.SetSuggestCarrier(suggestCarrier);
-            await _repository.SaveChanges();
-            return Ok(suggestCarrier);
-        }
+        }*/
 
-        //Get SuggestCarrier By ID
-        [HttpGet("SuggestCarrier/{SuggestCarrierID}")]
-        public async Task<IActionResult> GetSuggestCarrierByID(string SuggestCarrierID)
+        //Get SuggestCarrier By CarrierID
+        [Authorize]
+        [HttpGet("SuggestCarrier/{CarrierID}")]
+        public async Task<IActionResult> GetSuggestCarrierByID(string CarrierID)
         {
-            var suggestcarrierinfo = await _repository.GetSuggestCarrierByID(SuggestCarrierID);
+            var suggestcarrierinfo = await _repository.GetSuggestCarrierByCarrierID(CarrierID);
             if (suggestcarrierinfo == null)
             {
                 return NotFound();
@@ -185,17 +183,30 @@ namespace Callender.Controller
             return Ok(suggestcarrierinfo);
         }
         
+        // Get SuggestCarriers
+        [Authorize]
+        [HttpGet("SuggestCarrier")]
+        public IActionResult GetSuggestCarriers()
+        {
+            var SuggestCarrierinfo = _repository.GetAllSuggestCarrier();
+            return Ok(SuggestCarrierinfo);
+        }
+
         //Set UserCarrier
+        [Authorize]
         [HttpPost("UserCarrier")]
         public async Task<IActionResult> SetUserCarrier(SetUserCarrier setuserCarrier)
         {
+            string UserID = HttpContext.User.FindFirstValue(ClaimTypes.SerialNumber);
             var userCarrier = _mapper.Map<UserCarrier>(setuserCarrier);
+            userCarrier.UserID = UserID;
             _repository.SetUserCarrier(userCarrier);
             await _repository.SaveChanges();
             return Ok(userCarrier);
         }
 
         //Get UserCarrier By ID
+        [Authorize]
         [HttpGet("UserCarrier/{UserCarrierID}")]
         public async Task<IActionResult> GetUserCarrier(string UserCarrierID)
         {

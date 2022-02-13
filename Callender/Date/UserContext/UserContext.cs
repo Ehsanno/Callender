@@ -14,7 +14,7 @@ namespace Callender.Data
         public DbSet<Premium> Premium { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Suggest> Suggest { get; set; }
-        public DbSet<SuggestCarrier> SuggestCarriers { get; set; }
+        public DbSet<SuggestCarrier> SuggestCarrier { get; set; }
         public DbSet<Token> Token { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserCarrier> UserCarrier { get; set; }

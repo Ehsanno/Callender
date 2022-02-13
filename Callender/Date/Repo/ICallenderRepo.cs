@@ -9,10 +9,11 @@ namespace Callender.Date.Repo
         IEnumerable<User> GetAllUsers(); //getusers
         IEnumerable<Suggest> GetAllSuggest(); //getusers
         IEnumerable<Carrier> GetAllCarrier(); //getusers
+        IEnumerable<SuggestCarrier> GetAllSuggestCarrier(); //getusers
         Task<User> GetUserByUserId(string Userid);//get User by Id
         Task<Suggest> GetSuggestById(string SuggestID);//Get Suggest By ID
         Task<UserCarrier> GetUserCarrierByID(string UserCarrierID);//Get Suggest By ID
-        Task<SuggestCarrier> GetSuggestCarrierByID(string SuggestCarrierID);//Get SuggestCarrier By ID
+        Task<SuggestCarrier> GetSuggestCarrierByCarrierID(string SuggestCarrierID);//Get SuggestCarrier By ID
         Task<Carrier> GetCarrierById(string CarrierID);//Get Carrier By ID
         void SetSuggest(Suggest cmd); //Set Suggest 
         Task<Role> RoleCheck(string roleid);//check roles by roleId
@@ -33,7 +34,7 @@ namespace Callender.Date.Repo
         void SetCarrier(Carrier cmd); //Set Carrier 
         void SetSuggestCarrier(SuggestCarrier cmd); //Set SuggestCarrier
         void SetUserCarrier(UserCarrier cmd); //Set UserCarrier
-
+        Task<UserCarrier> GetUserCarrierByUserID(string userid); //get usercarrier By user ID
 
     }
     public class IBasicResponse

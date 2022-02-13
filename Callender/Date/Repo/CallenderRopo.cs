@@ -32,6 +32,10 @@ namespace Callender.Date.Repo
         {
             return _context.Carrier.ToList();
         }
+        public IEnumerable<SuggestCarrier> GetAllSuggestCarrier()
+        {
+            return _context.SuggestCarrier.ToList();
+        }
 
         //Get User By Id
         public async Task<User> GetUserByUserId(string Userid)
@@ -40,9 +44,9 @@ namespace Callender.Date.Repo
         }
 
         //Get SuggestCarrier By Id
-        public async Task<SuggestCarrier> GetSuggestCarrierByID(string SuggestCarrieriD)
+        public async Task<SuggestCarrier> GetSuggestCarrierByCarrierID(string CarrieriD)
         {
-            return await _context.SuggestCarriers.FirstOrDefaultAsync(p => p.ID == SuggestCarrieriD);
+            return await _context.SuggestCarrier.FirstOrDefaultAsync(p => p.CarrierID == CarrieriD);
         }
 
         //Get User By UserName
@@ -55,6 +59,11 @@ namespace Callender.Date.Repo
         public async Task<UserCarrier> GetUserCarrierByID(string UserCarrierID)
         {
             return await _context.UserCarrier.FirstOrDefaultAsync(p => p.ID == UserCarrierID);
+        }
+        //Get UserCarrier By ID
+        public async Task<UserCarrier> GetUserCarrierByUserID(string UserID)
+        {
+            return await _context.UserCarrier.FirstOrDefaultAsync(p => p.UserID == UserID);
         }
         //get token by id
         public async Task<Token> GetTokenById(string TokenId)
@@ -195,7 +204,7 @@ namespace Callender.Date.Repo
         //set SuggestCarrier
         public void SetSuggestCarrier(SuggestCarrier cmd)
         {
-            _context.SuggestCarriers.Add(cmd);
+            _context.SuggestCarrier.Add(cmd);
         }
         //set UserCarrier
         public void SetUserCarrier(UserCarrier cmd)
