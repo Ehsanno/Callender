@@ -68,6 +68,7 @@ namespace Callender.Controller
                 AccessToken = accessToken,
             });
         }
+        
         //set role by default
         public async Task<IActionResult> SetRolebyDefualt(UserRole roleAccess)
         {
@@ -81,6 +82,7 @@ namespace Callender.Controller
                 await _repository.SaveChanges();
             return Ok(res);
         }
+        
         //get user by id
         [Authorize(Roles = "Admin,Moderator")]
         [HttpGet("user/{Userid}", Name = "GetUserByUserId")]
@@ -93,6 +95,7 @@ namespace Callender.Controller
             }
             return Ok(userinfo);
         }
+        
         // Get Suggests
         [Authorize]
         [HttpGet("Suggest")]
@@ -101,6 +104,7 @@ namespace Callender.Controller
             var suggestinfo = _repository.GetAllSuggest();
             return Ok(suggestinfo);
         }
+       
         //get Suggest By ID
         [Authorize]
         [HttpGet("Suggest/{suggestID}", Name= "GetSuggestById")]
@@ -113,6 +117,7 @@ namespace Callender.Controller
             }
             return Ok(suggestinfo);
         }
+        
         //set Suggest 
         [Authorize]
         [HttpPost("Suggest")]
