@@ -104,13 +104,13 @@ namespace Callender.Migrations
                 name: "UserRole",
                 columns: table => new
                 {
-                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Row = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleID = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => x.ID);
+                    table.PrimaryKey("PK_UserRole", x => x.Row);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,8 +119,8 @@ namespace Callender.Migrations
                 {
                     ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Pass = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

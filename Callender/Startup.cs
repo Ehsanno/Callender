@@ -1,6 +1,9 @@
 using Callender.Data;
+using Callender.Data.TokenGenerator;
 using Callender.Date.PasswordHasher;
 using Callender.Date.Repo;
+using Callender.Model.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,10 +13,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Callender
@@ -39,9 +44,41 @@ namespace Callender
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Callender", Version = "v1" });
             });
+            //AUTHENTICATION CONFIG
+            AuthenticationConfiguration authenticationConfiguration = new();
+            Configuration.Bind("Authentication", authenticationConfiguration);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenSecret)),
+                    ValidIssuer = authenticationConfiguration.Issuer
+                   ,
+                    ValidAudience = authenticationConfiguration.Audience
+                   ,
+                    ValidateIssuer = true
+                   ,
+                    ValidateAudience = true
+                   ,
+                    ValidateIssuerSigningKey = true
+                   ,
+                    ClockSkew = TimeSpan.Zero
+                };
+            }
+                );
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+            services.AddSingleton(authenticationConfiguration);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICallenderRepo, CallenderRopo>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<AccessToken>();
+            services.AddSingleton<TokenGenerator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +92,7 @@ namespace Callender
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();

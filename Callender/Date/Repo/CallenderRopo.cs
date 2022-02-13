@@ -1,4 +1,5 @@
 ﻿using Callender.Data;
+using Callender.Date.PasswordHasher;
 using Callender.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace Callender.Date.Repo
 {
-    public class CallenderRopo:ICallenderRepo
+    public class CallenderRopo : ICallenderRepo
     {
         private readonly UserContext _context;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public CallenderRopo(UserContext context)
+        public CallenderRopo(UserContext context, IPasswordHasher passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -49,9 +52,9 @@ namespace Callender.Date.Repo
         {
              _context.Users.Add(cmd);
         }
-        public Task<bool> SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            return Task.FromResult(_context.SaveChanges() >= 0);
+            return await _context.SaveChangesAsync() >= 0;
         }
         //Set Role
         public async Task<IBasicResponse> SetRole(string userid, string roleid)
@@ -96,14 +99,15 @@ namespace Callender.Date.Repo
         }
 
         //check signin information
-        public async Task<bool> CheckLoginInformation(string email, string username)
+        public async Task<bool> CheckLoginInformation(string pass, string username)
         {
-            var user2 = await _context.Users.FirstOrDefaultAsync(z => z.UserName == username);
-            //var user1 = await _context.Users.FirstOrDefaultAsyncAsync(x => x.Email == email);
-            //if (user1 is null || user2 is null) return false;
-            //if (user2.UserName == user1.UserName && user1.Email == user2.Email && user1.Pass == user2.Pass)
-            //    return true;
-            return false;
+            var user = await _context.Users.FirstOrDefaultAsync(z => z.UserName == username);
+            if(user is null)
+                return false; 
+            bool isCorrectPassword = await _passwordHasher.VarifyPassword(pass, user.Pass);
+            if (!isCorrectPassword)      
+                return false;
+            return true;
         }
         //User Manger
         public async Task<bool> CheckIsAdmin(string UserName)
@@ -117,12 +121,11 @@ namespace Callender.Date.Repo
             return true;
         }
         //push tokens for user id 
-        public async void SetUsersToken(Token cmd)
+        public void SetUsersToken(Token cmd)
         {
-             _context.Token.Add(cmd);
-            await SaveChanges();
+              _context.Token.Add(cmd);
         }
-        public async Task<IBasicResponse> GetTokensById(string usertoken)
+        public async Task<IBasicResponse> GetTokensByID(string usertoken)
         {
 
             if (string.IsNullOrEmpty(usertoken)) return new IBasicResponse { Message = "OK" };
@@ -132,6 +135,26 @@ namespace Callender.Date.Repo
 
             return new IBasicResponse { Message = "OK" };
         }
-        
+
+        public async Task<bool> GetTokenByToken(string token)
+        {
+          var validator = await _context.Token.FirstOrDefaultAsync(x => x.UserToken == token);
+            if (validator is null)
+                return false;
+            if (validator.TokenValidator == 1)
+                return false;
+            return true;
+        }
+
+        //Get Suggest By ID
+        public async Task<Suggest> GetSuggestById(string SuggestID)
+        {
+            return await _context.Suggest.FirstOrDefaultAsync(s => s.ID == SuggestID);
+        }
+        //set Suggest By ID
+        public void SetSuggest(Suggest cmd)
+        {
+            _context.Suggest.Add(cmd);
+        }
     }
 }

@@ -126,10 +126,10 @@ namespace Callender.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Pass")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
@@ -158,7 +158,7 @@ namespace Callender.Migrations
 
             modelBuilder.Entity("Callender.Model.Entity.UserRole", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Row")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleID")
@@ -167,7 +167,7 @@ namespace Callender.Migrations
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Row");
 
                     b.ToTable("UserRole");
                 });

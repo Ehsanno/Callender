@@ -23,4 +23,11 @@ namespace Callender.Model.Entity
         public string Pass { get; set; }
         public string Phone{ get; set; }
     }
+    public class LoginInformationDto
+    {
+        public string UserName { get; set; }
+        [Required]
+        [MaxLength(15)]
+        public string Pass { get; set; }
+    }
 }
