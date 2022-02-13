@@ -28,6 +28,10 @@ namespace Callender.Date.Repo
         {
             return _context.Suggest.ToList();
         }
+        public IEnumerable<Carrier> GetAllCarrier()
+        {
+            return _context.Carrier.ToList();
+        }
         //Get User By Id
         public async Task<User> GetUserByUserId(string Userid)
         {

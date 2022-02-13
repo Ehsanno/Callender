@@ -8,6 +8,7 @@ namespace Callender.Date.Repo
     {
         IEnumerable<User> GetAllUsers(); //getusers
         IEnumerable<Suggest> GetAllSuggest(); //getusers
+        IEnumerable<Carrier> GetAllCarrier(); //getusers
         Task<User> GetUserByUserId(string Userid);//get User by Id
         Task<Suggest> GetSuggestById(string SuggestID);//Get Suggest By ID
         void SetSuggest(Suggest cmd); //Set Suggest 

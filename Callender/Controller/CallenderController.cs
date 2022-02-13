@@ -142,5 +142,15 @@ namespace Callender.Controller
             return Ok(setCarrier1);
         }
         
+        //get Carrier
+        [Authorize]
+        [HttpGet("Carrier")]
+        public async Task<IActionResult> GetCarriers()
+        {
+            var carrierinfo = _repository.GetAllCarrier();
+            return Ok(carrierinfo);
+        }
+
+
     }
 }
