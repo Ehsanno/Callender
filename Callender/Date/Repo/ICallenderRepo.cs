@@ -11,6 +11,8 @@ namespace Callender.Date.Repo
         IEnumerable<Carrier> GetAllCarrier(); //getusers
         Task<User> GetUserByUserId(string Userid);//get User by Id
         Task<Suggest> GetSuggestById(string SuggestID);//Get Suggest By ID
+        Task<UserCarrier> GetUserCarrierByID(string UserCarrierID);//Get Suggest By ID
+        Task<SuggestCarrier> GetSuggestCarrierByID(string SuggestCarrierID);//Get SuggestCarrier By ID
         Task<Carrier> GetCarrierById(string CarrierID);//Get Carrier By ID
         void SetSuggest(Suggest cmd); //Set Suggest 
         Task<Role> RoleCheck(string roleid);//check roles by roleId
@@ -29,7 +31,9 @@ namespace Callender.Date.Repo
         Task<IBasicResponse> GetTokensByID(string ID); //Get Users Token
         Task<bool> GetTokenByToken(string token); //check valid token
         void SetCarrier(Carrier cmd); //Set Carrier 
-        void SetSuggestCarrier(SuggestCarrier cmd); //Set SuggestCarrier 
+        void SetSuggestCarrier(SuggestCarrier cmd); //Set SuggestCarrier
+        void SetUserCarrier(UserCarrier cmd); //Set UserCarrier
+
 
     }
     public class IBasicResponse

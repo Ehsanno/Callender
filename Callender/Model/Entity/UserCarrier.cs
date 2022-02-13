@@ -11,4 +11,10 @@ namespace Callender.Model.Entity
         public string UserID { get; set; }
         public string CarrierID { get; set; }
     }
+    public class SetUserCarrier
+    {
+        public string ID { get; set; } = Guid.NewGuid().ToString();
+        public string UserID { get; set; }
+        public string CarrierID { get; set; }
+    }
 }

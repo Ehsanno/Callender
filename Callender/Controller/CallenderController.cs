@@ -172,5 +172,39 @@ namespace Callender.Controller
             await _repository.SaveChanges();
             return Ok(suggestCarrier);
         }
+
+        //Get SuggestCarrier By ID
+        [HttpGet("SuggestCarrier/{SuggestCarrierID}")]
+        public async Task<IActionResult> GetSuggestCarrierByID(string SuggestCarrierID)
+        {
+            var suggestcarrierinfo = await _repository.GetSuggestCarrierByID(SuggestCarrierID);
+            if (suggestcarrierinfo == null)
+            {
+                return NotFound();
+            }
+            return Ok(suggestcarrierinfo);
+        }
+        
+        //Set UserCarrier
+        [HttpPost("UserCarrier")]
+        public async Task<IActionResult> SetUserCarrier(SetUserCarrier setuserCarrier)
+        {
+            var userCarrier = _mapper.Map<UserCarrier>(setuserCarrier);
+            _repository.SetUserCarrier(userCarrier);
+            await _repository.SaveChanges();
+            return Ok(userCarrier);
+        }
+
+        //Get UserCarrier By ID
+        [HttpGet("UserCarrier/{UserCarrierID}")]
+        public async Task<IActionResult> GetUserCarrier(string UserCarrierID)
+        {
+            var usercarrierinfo = await _repository.GetUserCarrierByID(UserCarrierID);
+            if (usercarrierinfo == null)
+            {
+                return NotFound();
+            }
+            return Ok(usercarrierinfo);
+        }
     }
 }

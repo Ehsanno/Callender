@@ -32,15 +32,29 @@ namespace Callender.Date.Repo
         {
             return _context.Carrier.ToList();
         }
+
         //Get User By Id
         public async Task<User> GetUserByUserId(string Userid)
         {
             return await _context.Users.FirstOrDefaultAsync(p => p.ID == Userid);
         }
+
+        //Get SuggestCarrier By Id
+        public async Task<SuggestCarrier> GetSuggestCarrierByID(string SuggestCarrieriD)
+        {
+            return await _context.SuggestCarriers.FirstOrDefaultAsync(p => p.ID == SuggestCarrieriD);
+        }
+
         //Get User By UserName
         public async Task<User> GetUserByUserName(string userName)
         {
             return await _context.Users.FirstOrDefaultAsync(p => p.UserName == userName);
+        }
+
+        //Get UserCarrier By ID
+        public async Task<UserCarrier> GetUserCarrierByID(string UserCarrierID)
+        {
+            return await _context.UserCarrier.FirstOrDefaultAsync(p => p.ID == UserCarrierID);
         }
         //get token by id
         public async Task<Token> GetTokenById(string TokenId)
@@ -183,5 +197,11 @@ namespace Callender.Date.Repo
         {
             _context.SuggestCarriers.Add(cmd);
         }
+        //set UserCarrier
+        public void SetUserCarrier(UserCarrier cmd)
+        {
+            _context.UserCarrier.Add(cmd);
+        }
+
     }
 }
