@@ -56,9 +56,9 @@ namespace Callender.Date.Repo
         }
 
         //Get UserCarrier By ID
-        public async Task<UserCarrier> GetUserCarrierByID(string UserCarrierID)
+        public async Task<object> GetUserCarrierByID(string CarrierID)
         {
-            return await _context.UserCarrier.FirstOrDefaultAsync(p => p.ID == UserCarrierID);
+            return await _context.UserCarrier.Where(p => p.CarrierID == CarrierID).ToListAsync();
         }
         //Get UserCarrier By ID
         public async Task<UserCarrier> GetUserCarrierByUserID(string UserID)
@@ -130,9 +130,21 @@ namespace Callender.Date.Repo
         }
 
         //check signin information
-        public async Task<bool> CheckLoginInformation(string pass, string username)
+        public async Task<bool> CheckLoginInformation(string pass, string userinfo)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(z => z.UserName == username);
+            var user = await _context.Users.FirstOrDefaultAsync(z => z.Phone == userinfo);
+            if (user is null)
+            {
+               var user1 = await _context.Users.FirstOrDefaultAsync(z => z.UserName == userinfo);
+                if (user1 is null)
+                { 
+                    var user2 = await _context.Users.FirstOrDefaultAsync(z => z.Email == userinfo);
+                    if (user2 is null)
+                        return false;
+                }
+                user = user1;
+            }
+            
             if(user is null)
                 return false; 
             bool isCorrectPassword = await _passwordHasher.VarifyPassword(pass, user.Pass);

@@ -114,15 +114,19 @@ namespace Callender.Controller
             string UserID = HttpContext.User.FindFirstValue(ClaimTypes.SerialNumber);
             var suggestinfo = _mapper.Map<Suggest>(suggest);
             suggestinfo.UserID = UserID;
-            var userCarrierInfo = await _repository.GetUserCarrierByUserID(UserID);
-            var CarrierInfo = await _repository.GetCarrierById(userCarrierInfo.CarrierID);
-            suggestCarrier.CarrierID = CarrierInfo.ID;
-            suggestCarrier.SuggestID = suggest.ID;
             _repository.SetSuggest(suggestinfo);
+            await _repository.SaveChanges();
+            return Ok(suggestinfo);
+        }
+
+        //set suggestcarrier
+        [Authorize]
+        [HttpPost("suggestCarrier")]
+        public async Task<IActionResult> SetSuggestCarrier(SuggestCarrier suggestCarrier)
+        {
             _repository.SetSuggestCarrier(suggestCarrier);
             await _repository.SaveChanges();
-
-            return Ok(suggestinfo);
+            return Ok(suggestCarrier    );
         }
 
         // Get Suggests
@@ -216,10 +220,10 @@ namespace Callender.Controller
 
         //Get UserCarrier By ID
         [Authorize]
-        [HttpGet("UserCarrier/{UserCarrierID}")]
-        public async Task<IActionResult> GetUserCarrier(string UserCarrierID)
+        [HttpGet("UserCarrier/{CarrierID}")]
+        public async Task<IActionResult> GetUserCarrier(string CarrierID)
         {
-            var usercarrierinfo = await _repository.GetUserCarrierByID(UserCarrierID);
+            var usercarrierinfo = await _repository.GetUserCarrierByID(CarrierID);
             if (usercarrierinfo == null)
             {
                 return NotFound();
