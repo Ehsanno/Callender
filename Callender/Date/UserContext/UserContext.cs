@@ -19,5 +19,6 @@ namespace Callender.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UserCarrier> UserCarrier { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<SubPremum> Subpremum { get; set; }
     }
 }

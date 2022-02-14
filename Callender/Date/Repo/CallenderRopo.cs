@@ -20,21 +20,21 @@ namespace Callender.Date.Repo
             _passwordHasher = passwordHasher;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public  IEnumerable<User> GetAllUsers()
         {
-            return _context.Users.ToList();
+            return  _context.Users.ToList();
         }
-        public IEnumerable<Suggest> GetAllSuggest()
+        public  IEnumerable<Suggest> GetAllSuggest()
         {
-            return _context.Suggest.ToList();
+            return  _context.Suggest.ToList();
         }
-        public IEnumerable<Carrier> GetAllCarrier()
+        public  IEnumerable<Carrier> GetAllCarrier()
         {
             return _context.Carrier.ToList();
         }
         public IEnumerable<SuggestCarrier> GetAllSuggestCarrier()
         {
-            return _context.SuggestCarrier.ToList();
+            return  _context.SuggestCarrier.ToList();
         }
 
         //Get User By Id
@@ -79,9 +79,9 @@ namespace Callender.Date.Repo
             return await _context.UserRole.FirstOrDefaultAsync(s => s.UserID == Id);
         }
         //create user
-        public  void CreateUser(User cmd)
+        public async void CreateUser(User cmd)
         {
-             _context.Users.Add(cmd);
+             await _context.Users.AddAsync(cmd);
         }
         public async Task<bool> SaveChanges()
         {
@@ -110,15 +110,15 @@ namespace Callender.Date.Repo
             return new IBasicResponse { Message = "User Role Updated ." };
         }
         // Set Role To DataBase
-        public  void PostRole(UserRole cmd)
+        public async void PostRole(UserRole cmd)
         {
-             _context.UserRole.Add(cmd);
+            await _context.UserRole.AddAsync(cmd);
         }
 
-        //Add New Role 
-        public  void AddRole(Role cmd)
+        //AddAsync New Role 
+        public async void AddRole(Role cmd)
         {
-            _context.Roles.Add(cmd);
+            await _context.Roles.AddAsync(cmd);
         }
         //check sign up information
         public async Task<bool> CheckSignUpInformation(string phoneNumber, string username)
@@ -152,9 +152,9 @@ namespace Callender.Date.Repo
             return true;
         }
         //push tokens for user id 
-        public void SetUsersToken(Token cmd)
+        public async void SetUsersToken(Token cmd)
         {
-              _context.Token.Add(cmd);
+            await _context.Token.AddAsync(cmd);
         }
         public async Task<IBasicResponse> GetTokensByID(string usertoken)
         {
@@ -177,10 +177,10 @@ namespace Callender.Date.Repo
             return true;
         }
 
-        //Get Suggest By ID
-        public async Task<Suggest> GetSuggestById(string SuggestID)
+        //Get Suggest By StartDate
+        public async Task<Suggest> GetSuggestByDate(DateTime StartDate)
         {
-            return await _context.Suggest.FirstOrDefaultAsync(s => s.ID == SuggestID);
+            return await _context.Suggest.FirstOrDefaultAsync(s => s.StartDate == StartDate);
         }
 
         //Get Carrier By ID
@@ -190,27 +190,31 @@ namespace Callender.Date.Repo
         }
 
         //set Suggest
-        public void SetSuggest(Suggest cmd)
+        public async void SetSuggest(Suggest cmd)
         {
-            _context.Suggest.Add(cmd);
+           await _context.Suggest.AddAsync(cmd);
         }
 
         //set Carrier 
-        public void SetCarrier(Carrier cmd)
+        public async void SetCarrier(Carrier cmd)
         {
-            _context.Carrier.Add(cmd);
+            await _context.Carrier.AddAsync(cmd);
         }
 
         //set SuggestCarrier
-        public void SetSuggestCarrier(SuggestCarrier cmd)
+        public async void SetSuggestCarrier(SuggestCarrier cmd)
         {
-            _context.SuggestCarrier.Add(cmd);
+            await _context.SuggestCarrier.AddAsync(cmd);
         }
         //set UserCarrier
-        public void SetUserCarrier(UserCarrier cmd)
+        public async void SetUserCarrier(UserCarrier cmd)
         {
-            _context.UserCarrier.Add(cmd);
+            await _context.UserCarrier.AddAsync(cmd);
         }
 
+        public async void AddSubPremum(SubPremum cmd)
+        {
+            await _context.Subpremum.AddAsync(cmd);
+        }
     }
 }

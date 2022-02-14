@@ -32,7 +32,7 @@ namespace Callender.Controller
         }
         //sign up user
         [HttpPost("user/signup/")]
-        public async Task<IActionResult> CreateCommand(AccountCreateDto commandCreateDto)
+        public async Task<IActionResult> CreateUser(AccountCreateDto commandCreateDto)
         {
             UserRole role=new();
             if (await _repository.CheckSignUpInformation(commandCreateDto.Phone, commandCreateDto.UserName) == false)
@@ -83,6 +83,15 @@ namespace Callender.Controller
             return Ok(res);
         }
         
+        //get users
+        [Authorize]
+        [HttpGet("user")]
+        public IActionResult GetUsers()
+        {
+            var userinfo = _repository.GetAllUsers();
+            return Ok(userinfo);
+        }
+
         //get user by id
         [Authorize(Roles = "Admin,Moderator")]
         [HttpGet("user/{Userid}", Name = "GetUserByUserId")]
@@ -125,18 +134,18 @@ namespace Callender.Controller
             return Ok(suggestinfo);
         }
        
-        /*get Suggest By ID
+        //get Suggest By startdate
         [Authorize]
-        [HttpGet("Suggest/{suggestID}", Name= "GetSuggestById")]
-        public async Task<IActionResult> GetSuggestById(string suggestID)
+        [HttpGet("Suggest/{StartDate}", Name= "GetSuggestByDate")]
+        public async Task<IActionResult> GetSuggestByDate(DateTime StartDate)
         {
-            var suggestinfo = await _repository.GetSuggestById(suggestID);
+            var suggestinfo = await _repository.GetSuggestByDate(StartDate);
             if(suggestinfo==null)
             {
                 return NotFound();
             }
             return Ok(suggestinfo);
-        }*/
+        }
         
         //set Carrier
         [Authorize]
@@ -216,6 +225,21 @@ namespace Callender.Controller
                 return NotFound();
             }
             return Ok(usercarrierinfo);
+        }
+
+        //Add Subpremume By premume
+        [Authorize]
+        [HttpPost("SubPremum")]
+        public async Task<IActionResult> AddSubPremum(string UserName)
+        {
+            SubPremum subPremum = new();
+            var UserInfo = await _repository.GetUserByUserName(UserName);
+            string UserID = HttpContext.User.FindFirstValue(ClaimTypes.SerialNumber);
+            subPremum.PremiumID = UserID;
+            subPremum.SubPremiumID = UserInfo.ID;
+            _repository.AddSubPremum(subPremum);
+            await _repository.SaveChanges();
+            return Ok(subPremum);
         }
     }
 }
