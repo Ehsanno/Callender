@@ -12,7 +12,7 @@ namespace Callender.Model.Entity
         public string ID { get; set; }
         public string UserName { get; set; }
         public string Pass { get; set; }
-        public string Phone{ get; set; }
+        public string Email{ get; set; }
     }
     public class AccountCreateDto
     {
@@ -21,8 +21,8 @@ namespace Callender.Model.Entity
         public string UserName { get; set; }
         [Required]
         public string Pass { get; set; }
-        [MinLength(11)]
-        public string Phone{ get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
     }
     public class LoginInformationDto
     {

@@ -29,7 +29,7 @@ namespace Callender.Data.TokenGenerator
                 claims = new List<Claim>()
                 {
                 new Claim(ClaimTypes.SerialNumber, user.ID),
-                new Claim(ClaimTypes.MobilePhone, user.Phone),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, roleInformation.RoleName)
                 };

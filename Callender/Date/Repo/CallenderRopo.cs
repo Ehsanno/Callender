@@ -123,28 +123,16 @@ namespace Callender.Date.Repo
         //check sign up information
         public async Task<bool> CheckSignUpInformation(string phoneNumber, string username)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Phone == phoneNumber);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == phoneNumber);
             var user1 = await _context.Users.FirstOrDefaultAsync(y => y.UserName == username);
-            if (user is null || user1 is null) return true;
+            if (user is null && user1 is null) return true;
             return false;
         }
 
         //check signin information
-        public async Task<bool> CheckLoginInformation(string pass, string userinfo)
+        public async Task<bool> CheckLoginInformation(string pass, string username)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(z => z.Phone == userinfo);
-            if (user is null)
-            {
-               var user1 = await _context.Users.FirstOrDefaultAsync(z => z.UserName == userinfo);
-                if (user1 is null)
-                { 
-                    var user2 = await _context.Users.FirstOrDefaultAsync(z => z.Email == userinfo);
-                    if (user2 is null)
-                        return false;
-                }
-                user = user1;
-            }
-            
+            var user = await _context.Users.FirstOrDefaultAsync(z => z.UserName == username);
             if(user is null)
                 return false; 
             bool isCorrectPassword = await _passwordHasher.VarifyPassword(pass, user.Pass);

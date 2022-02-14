@@ -2,6 +2,7 @@ using Callender.Data;
 using Callender.Data.TokenGenerator;
 using Callender.Date.PasswordHasher;
 using Callender.Date.Repo;
+using Callender.Middleware;
 using Callender.Model.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -94,7 +95,7 @@ namespace Callender
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
-
+            app.AuthMiddleware();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

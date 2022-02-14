@@ -13,7 +13,7 @@ namespace Callender.Date.Repo
         IEnumerable<SuggestCarrier> GetAllSuggestCarrier(); //getusers
         Task<User> GetUserByUserId(string Userid);//get User by Id
         Task<Suggest> GetSuggestByDate(DateTime StartDate);//Get Suggest By ID
-        Task<UserCarrier> GetUserCarrierByID(string UserCarrierID);//Get Suggest By ID
+        Task<object> GetUserCarrierByID(string CarrierID);//Get Suggest By ID
         Task<SuggestCarrier> GetSuggestCarrierByCarrierID(string SuggestCarrierID);//Get SuggestCarrier By ID
         Task<Carrier> GetCarrierById(string CarrierID);//Get Carrier By ID
         void SetSuggest(Suggest cmd); //Set Suggest 

@@ -35,7 +35,7 @@ namespace Callender.Controller
         public async Task<IActionResult> CreateUser(AccountCreateDto commandCreateDto)
         {
             UserRole role=new();
-            if (await _repository.CheckSignUpInformation(commandCreateDto.Phone, commandCreateDto.UserName) == false)
+            if (await _repository.CheckSignUpInformation(commandCreateDto.Email, commandCreateDto.UserName) == false)
                 return BadRequest();
             string passwordHash = await _passwordHasher.HashlPassword(commandCreateDto.Pass);
             commandCreateDto.Pass = passwordHash;
