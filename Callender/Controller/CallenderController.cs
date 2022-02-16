@@ -49,6 +49,7 @@ namespace Callender.Controller
         }
 
         //LOG IN 
+        [AllowAnonymous]
         [HttpPost("user/login/")]
         public async Task<IActionResult> LoginByUsers(LoginInformationDto loginInformationDto)
         {
@@ -244,6 +245,14 @@ namespace Callender.Controller
             _repository.AddSubPremum(subPremum);
             await _repository.SaveChanges();
             return Ok(subPremum);
+        }
+        //token validator
+        [Authorize]
+        [HttpPost("token/invalid")]
+        public async Task<IActionResult> InvalidateToken(string tokenid)
+        {
+            await _repository.SaveChanges();
+            return Ok();
         }
     }
 }

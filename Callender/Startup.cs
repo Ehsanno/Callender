@@ -95,9 +95,9 @@ namespace Callender
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
-            app.AuthMiddleware();
+            
             app.UseAuthorization();
-
+            app.AuthMiddleware();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

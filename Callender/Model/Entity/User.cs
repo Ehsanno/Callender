@@ -12,6 +12,7 @@ namespace Callender.Model.Entity
         public string ID { get; set; }
         public string UserName { get; set; }
         public string Pass { get; set; }
+        [Required]
         public string Email{ get; set; }
     }
     public class AccountCreateDto

@@ -169,12 +169,14 @@ namespace Callender.Date.Repo
 
         public async Task<bool> GetTokenByToken(string token)
         {
-          var validator = await _context.Token.FirstOrDefaultAsync(x => x.UserToken == token);
+            var validator = await _context.Token.ToListAsync();
+            var found = validator.Find(x => x.UserToken == token);
             if (validator is null)
                 return false;
-            if (validator.TokenValidator == 1)
+            if (found.TokenValidator== 1)
                 return false;
             return true;
+
         }
 
         //Get Suggest By StartDate
