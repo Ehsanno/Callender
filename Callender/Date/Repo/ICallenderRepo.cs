@@ -30,12 +30,11 @@ namespace Callender.Date.Repo
         Task<bool> CheckIsAdmin(string UserName);//user manager
         Task<User> GetUserByUserName(string userName);// Get User By UserName
         void SetUsersToken(Token cmd); // Get User Token
-        Task<IBasicResponse> GetTokensByID(string ID); //Get Users Token
         Task<bool> GetTokenByToken(string token); //check valid token
         void SetCarrier(Carrier cmd); //Set Carrier 
         void SetSuggestCarrier(SuggestCarrier cmd); //Set SuggestCarrier
         void SetUserCarrier(UserCarrier cmd); //Set UserCarrier
-        Task<UserCarrier> GetUserCarrierByUserID(string userid); //get usercarrier By user ID
+        //Task<UserCarrier> GetUserCarrierByUserID(string userid); //get usercarrier By user ID
         void AddSubPremum(SubPremum cmd); //add Subpremum
     }
     public class IBasicResponse

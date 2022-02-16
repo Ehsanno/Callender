@@ -60,11 +60,11 @@ namespace Callender.Date.Repo
         {
             return await _context.UserCarrier.Where(p => p.CarrierID == CarrierID).ToListAsync();
         }
-        //Get UserCarrier By ID
-        public async Task<UserCarrier> GetUserCarrierByUserID(string UserID)
-        {
-            return await _context.UserCarrier.FirstOrDefaultAsync(p => p.UserID == UserID);
-        }
+        ////Get UserCarrier By ID
+        //public async Task<UserCarrier> GetUserCarrierByUserID(string UserID)
+        //{
+        //    return await _context.UserCarrier.FirstOrDefaultAsync(p => p.UserID == UserID);
+        //}
         //get token by id
         public async Task<Token> GetTokenById(string TokenId)
         {
@@ -156,16 +156,6 @@ namespace Callender.Date.Repo
         {
             await _context.Token.AddAsync(cmd);
         }
-        public async Task<IBasicResponse> GetTokensByID(string usertoken)
-        {
-
-            if (string.IsNullOrEmpty(usertoken)) return new IBasicResponse { Message = "OK" };
-
-            var tokenFromDb = await _context.Token.FirstOrDefaultAsync(x => x.UserToken == usertoken && x.TokenValidator == 0);
-            if (tokenFromDb is null) return new IBasicResponse { Message = "NOT VALID" };
-
-            return new IBasicResponse { Message = "OK" };
-        }
 
         public async Task<bool> GetTokenByToken(string token)
         {
@@ -173,7 +163,7 @@ namespace Callender.Date.Repo
             var found = validator.Find(x => x.UserToken == token);
             if (validator is null)
                 return false;
-            if (found.TokenValidator== 1)
+            if (found.TokenValidator== 0)
                 return false;
             return true;
 
