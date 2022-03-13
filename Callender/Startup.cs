@@ -36,6 +36,17 @@ namespace Callender
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //add cors 
+            //----------------------
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "_Cors",
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                                  });
+            });
+            //----------------------
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<UserContext>(opt =>
@@ -79,7 +90,6 @@ namespace Callender
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<AccessToken>();
             services.AddSingleton<TokenGenerator>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,6 +103,9 @@ namespace Callender
             }
 
             app.UseHttpsRedirection();
+            //user cors
+            app.UseCors("_Cors");
+
             app.UseAuthentication();
             app.UseRouting();
             
